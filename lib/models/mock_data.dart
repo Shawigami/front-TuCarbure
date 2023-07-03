@@ -1,13 +1,23 @@
+// Fichier : lib/models/mock_data.dart
+
+import 'package:flutter/foundation.dart';
+
 class Station {
   final String name;
   final String address;
   final String coordinates;
 
-  Station(this.name, this.address, this.coordinates);
+  Station({required this.name, required this.address, required this.coordinates});
 }
 
 final List<Station> mockStations = <Station>[
-  Station('Station 1', '123 Rue Polochon, Ville, 00000', '48.8566, 2.3522'),
-  Station('Station 2', '456 Boulevard QuiSentLaPisse, Ville, 00000', '48.8576, 2.3623'),
-  Station('Station 3', '789 Avenue Trouduc, Ville, 00000', '48.8586, 2.3724'),
+  Station(name: 'Station 1', address: 'Valenciennes', coordinates: 'Coordonnées 1'),
+  Station(name: 'Station 2', address: 'Lens', coordinates: 'Coordonnées 2'),
+  Station(name: 'Station 3', address: 'Lille', coordinates: 'Coordonnées 3'),
+  Station(name: 'Station 4', address: 'Denain', coordinates: 'Coordonnées 4'),
+  Station(name: 'Station 5', address: 'Arras', coordinates: 'Coordonnées 5'),
+  // Ajoutez autant de stations que vous le souhaitez
 ];
+
+final ValueNotifier<List<Station>> favoriteStations = ValueNotifier(<Station>[]);
+
