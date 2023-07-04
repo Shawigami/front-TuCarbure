@@ -44,7 +44,6 @@ ValueNotifier<List<Station>> stations = ValueNotifier<List<Station>>([
       Fuel(name: 'Sans Plomb 95 (E5)', price: 1.79, lastUpdate: DateTime(2023, 5, 22)),
       Fuel(name: 'Sans Plomb 95 (E10)', price: 1.83, lastUpdate: DateTime(2023, 5, 22)),
       Fuel(name: 'Gazole (B7)', price: 1.65, lastUpdate: DateTime(2023, 5, 22)),
-      Fuel(name: 'Diesel', price: 1.69, lastUpdate: DateTime(2023, 5, 22)),
     ],
     lastUpdate: DateTime(2023, 5, 22),
   ),
@@ -55,7 +54,6 @@ ValueNotifier<List<Station>> stations = ValueNotifier<List<Station>>([
     latitude: 48.8566,
     fuels: [
       Fuel(name: 'Sans Plomb 98 (E5)', price: 1.92, lastUpdate: DateTime(2023, 6, 22)),
-      Fuel(name: 'Sans Plomb 95 (E5)', price: 1.82, lastUpdate: DateTime(2023, 6, 22)),
       Fuel(name: 'Sans Plomb 95 (E10)', price: 1.87, lastUpdate: DateTime(2023, 6, 22)),
       Fuel(name: 'Gazole (B7)', price: 1.67, lastUpdate: DateTime(2023, 6, 22)),
       Fuel(name: 'Diesel', price: 1.7, lastUpdate: DateTime(2023, 6, 22)),

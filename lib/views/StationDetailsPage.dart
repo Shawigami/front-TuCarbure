@@ -81,7 +81,7 @@ class _StationDetailsPageState extends State<StationDetailsPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Modifier le prix du carburant'),
+        title: Text('Modifier le prix du ${fuel.name}'),
         content: TextField(
           controller: _priceController,
           keyboardType: TextInputType.numberWithOptions(decimal: true),
