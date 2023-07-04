@@ -26,7 +26,12 @@ class _FindAllStationsState extends State<FindAllStations> {
         ),
         body: TabBarView(
           children: [
-            _buildStationsList(mockStations),
+            ValueListenableBuilder(
+              valueListenable: stations,
+              builder: (context, value, child) {
+                return _buildStationsList(stations.value);
+              },
+            ),
             ValueListenableBuilder(
               valueListenable: favoriteStations,
               builder: (context, value, child) {
@@ -45,7 +50,7 @@ class _FindAllStationsState extends State<FindAllStations> {
       itemBuilder: (context, index) {
         return ListTile(
           title: Text(stations[index].name),
-          subtitle: Text('Adresse: ${stations[index].address}\nCoordonnées: ${stations[index].coordinates}'),
+          subtitle: Text('Adresse: ${stations[index].address}\nLongitude: ${stations[index].longitude}\nLatitude: ${stations[index].latitude}'),
           onTap: () {
             Navigator.push(
               context,

@@ -3,21 +3,82 @@
 import 'package:flutter/foundation.dart';
 
 class Station {
-  final String name;
-  final String address;
-  final String coordinates;
+  String name;
+  String address;
+  double longitude;
+  double latitude;
+  List<Fuel> fuels;
+  DateTime lastUpdate;
 
-  Station({required this.name, required this.address, required this.coordinates});
+  Station({
+    required this.name,
+    required this.address,
+    required this.longitude,
+    required this.latitude,
+    required this.fuels,
+    required this.lastUpdate,
+  });
 }
 
-final List<Station> mockStations = <Station>[
-  Station(name: 'Station 1', address: 'Valenciennes', coordinates: 'Coordonnées 1'),
-  Station(name: 'Station 2', address: 'Lens', coordinates: 'Coordonnées 2'),
-  Station(name: 'Station 3', address: 'Lille', coordinates: 'Coordonnées 3'),
-  Station(name: 'Station 4', address: 'Denain', coordinates: 'Coordonnées 4'),
-  Station(name: 'Station 5', address: 'Arras', coordinates: 'Coordonnées 5'),
-  // Ajoutez autant de stations que vous le souhaitez
-];
+class Fuel {
+  String name;
+  double price;
+  DateTime lastUpdate;
 
-final ValueNotifier<List<Station>> favoriteStations = ValueNotifier(<Station>[]);
+  Fuel({
+    required this.name,
+    required this.price,
+    required this.lastUpdate,
+  });
+}
+
+// Exemple de données de stations
+ValueNotifier<List<Station>> stations = ValueNotifier<List<Station>>([
+  Station(
+    name: 'Access - TotalEnergies',
+    address: 'Aire De, Rocade O de Valenciennes, A23, 59494 Petite-Forêt',
+    longitude: 2.5729,
+    latitude: 51.2581,
+    fuels: [
+      Fuel(name: 'Sans Plomb 98 (E5)', price: 1.89, lastUpdate: DateTime(2023, 5, 22)),
+      Fuel(name: 'Sans Plomb 95 (E5)', price: 1.79, lastUpdate: DateTime(2023, 5, 22)),
+      Fuel(name: 'Sans Plomb 95 (E10)', price: 1.83, lastUpdate: DateTime(2023, 5, 22)),
+      Fuel(name: 'Gazole (B7)', price: 1.65, lastUpdate: DateTime(2023, 5, 22)),
+      Fuel(name: 'Diesel', price: 1.69, lastUpdate: DateTime(2023, 5, 22)),
+    ],
+    lastUpdate: DateTime(2023, 5, 22),
+  ),
+  Station(
+    name: 'Leclerc Valenciennes',
+    address: '50 Rue Ernest Macarez, 59300 Valenciennes',
+    longitude: 2.3522,
+    latitude: 48.8566,
+    fuels: [
+      Fuel(name: 'Sans Plomb 98 (E5)', price: 1.92, lastUpdate: DateTime(2023, 6, 22)),
+      Fuel(name: 'Sans Plomb 95 (E5)', price: 1.82, lastUpdate: DateTime(2023, 6, 22)),
+      Fuel(name: 'Sans Plomb 95 (E10)', price: 1.87, lastUpdate: DateTime(2023, 6, 22)),
+      Fuel(name: 'Gazole (B7)', price: 1.67, lastUpdate: DateTime(2023, 6, 22)),
+      Fuel(name: 'Diesel', price: 1.7, lastUpdate: DateTime(2023, 6, 22)),
+    ],
+    lastUpdate: DateTime(2023, 5, 22),
+  ),
+  Station(
+    name: 'Carrefour Liévin',
+    address: 'Rue Marie Liétard, Rés les Marichelles, 62800 Liévin',
+    longitude: 3.8371,
+    latitude: 46.9172,
+    fuels: [
+      Fuel(name: 'Sans Plomb 98 (E5)', price: 1.94, lastUpdate: DateTime(2023, 4, 09)),
+      Fuel(name: 'Sans Plomb 95 (E5)', price: 1.85, lastUpdate: DateTime(2023, 4, 09)),
+      Fuel(name: 'Sans Plomb 95 (E10)', price: 1.89, lastUpdate: DateTime(2023, 4, 09)),
+      Fuel(name: 'Gazole (B7)', price: 1.7, lastUpdate: DateTime(2023, 4, 09)),
+      Fuel(name: 'Diesel', price: 1.68, lastUpdate: DateTime(2023, 4, 09)),
+    ],
+    lastUpdate: DateTime(2023, 5, 22),
+  ),// Ajoutez d'autres stations ici...
+]);
+
+// Exemple de liste de stations favorites
+ValueNotifier<List<Station>> favoriteStations = ValueNotifier<List<Station>>([]);
+
 
