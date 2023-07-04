@@ -32,31 +32,41 @@ class _StationDetailsPageState extends State<StationDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Détails de ${widget.station.name}'),
+        title: Text('Détails de ${widget.station.name}', style: TextStyle(color: Color(0xFF001931))),
+        backgroundColor: Color(0xFF001931),
+        actions: <Widget>[
+          Tooltip(
+            message: "Ajouter la Station au Favoris",
+            child: IconButton(
+              icon: Icon(
+                isFavorite(widget.station) ? Icons.star : Icons.star_border,
+                color: Colors.yellow,
+              ),
+              onPressed: () {
+                toggleFavorite(widget.station);
+              },
+            ),
+          ),
+        ],
       ),
       body: ListView(
         children: [
-          // ...
-
           for (var fuel in widget.station.fuels) ...[
-            ListTile(
-              title: Text('${fuel.name} - \$${fuel.price.toStringAsFixed(2)}'),
-              subtitle: Text('Dernière mise à jour : ${DateFormat('dd/MM/yyyy').format(fuel.lastUpdate)}'),
-              trailing: IconButton(
-                icon: Icon(Icons.edit),
-                onPressed: () => _showFuelEditDialog(context, fuel),
+            Card(
+              shape: RoundedRectangleBorder(
+                side: BorderSide(color: Color(0xFF001931), width: 1),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: ListTile(
+                title: Text('${fuel.name} - \$${fuel.price.toStringAsFixed(2)}', style: TextStyle(color: Color(0xFF001931))),
+                subtitle: Text('Dernière mise à jour : ${DateFormat('dd/MM/yyyy').format(fuel.lastUpdate)}', style: TextStyle(color: Color(0xFFEF7300))),
+                trailing: IconButton(
+                  icon: Icon(Icons.edit, color: Color(0xFF001931)),
+                  onPressed: () => _showFuelEditDialog(context, fuel),
+                ),
               ),
             ),
           ],
-
-          IconButton(
-            icon: Icon(
-              isFavorite(widget.station) ? Icons.star : Icons.star_border,
-            ),
-            onPressed: () {
-              toggleFavorite(widget.station);
-            },
-          ),
         ],
       ),
     );
@@ -81,27 +91,35 @@ class _StationDetailsPageState extends State<StationDetailsPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Modifier le prix du ${fuel.name}'),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          side: BorderSide(color: Color(0xFF001931), width: 2),
+        ),
+        title: Text('Modifier le prix du ${fuel.name}', style: TextStyle(color: Color(0xFF001931))),
         content: TextField(
           controller: _priceController,
           keyboardType: TextInputType.numberWithOptions(decimal: true),
           decoration: InputDecoration(
             labelText: 'Prix',
+            labelStyle: TextStyle(color: Color(0xFF001931)),
             helperText: 'Entrez un prix entre 1.00 et 2.50',
+            helperStyle: TextStyle(color: Color(0xFF001931)),
           ),
+          style: TextStyle(color: Color(0xFF001931)),
         ),
         actions: [
           TextButton(
-            child: Text('ANNULER'),
+            child: Text('ANNULER', style: TextStyle(color: Color(0xFF001931))),
             onPressed: () => Navigator.pop(context),
           ),
           TextButton(
-            child: Text('VALIDER'),
+            child: Text('VALIDER', style: TextStyle(color: Color(0xFF001931))),
             onPressed: () {
               double newPrice = double.tryParse(_priceController.text) ?? fuel.price;
               if (newPrice < 1.0 || newPrice > 2.5) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text('Le prix doit être entre 1.00 et 2.50'),
+                  backgroundColor: Colors.red,
                 ));
               } else {
                 setState(() {
@@ -116,6 +134,5 @@ class _StationDetailsPageState extends State<StationDetailsPage> {
       ),
     );
   }
+
 }
-
-
