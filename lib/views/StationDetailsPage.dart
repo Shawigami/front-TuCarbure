@@ -1,10 +1,5 @@
-// Fichier : lib/views/StationDetailsPage.dart
-
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // Assurez-vous d'importer 'intl' pour utiliser DateFormat
 import 'package:tucarbure/models/Station.dart';
-
-import '../ViewModel/Station_view_model.dart';
 
 class StationDetailsPage extends StatefulWidget {
   final Station station;
@@ -16,29 +11,49 @@ class StationDetailsPage extends StatefulWidget {
 }
 
 class _StationDetailsPageState extends State<StationDetailsPage> {
-  late TextEditingController _priceController;
+  late TextEditingController priceController;
 
-  @override
-  void initState() {
-    super.initState();
-    _priceController = TextEditingController();
-  }
+  Statement statement = Statement(idStatement: 1, price: 1.3, dateTimeStatement: DateTime.now());
 
-  @override
-  void dispose() {
-    _priceController.dispose();
-    super.dispose();
-  }
+  void openPriceDialog(BuildContext context) async {
+    double? newPrice = await showDialog<double>(
+      context: context,
+      builder: (BuildContext context) {
+        TextEditingController priceController = TextEditingController();
 
-  List<Station> stations = [];
-  var isLoaded = false;
+        return AlertDialog(
+          title: Text('Change Price'),
+          content: TextFormField(
+            controller: priceController,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              labelText: 'Price',
+            ),
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                double? updatedPrice =
+                double.tryParse(priceController.text);
+                Navigator.of(context).pop(updatedPrice);
+              },
+              child: Text('Save'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
 
-
-  getData() async {
-    stations = await StationAPI().fetchInfoStations();
-    if (stations != null) {
+    if (newPrice != null) {
       setState(() {
-        isLoaded = true;
+        statement.price = newPrice;
+        statement.dateTimeStatement = DateTime.now();
       });
     }
   }
@@ -46,38 +61,32 @@ class _StationDetailsPageState extends State<StationDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-        title: Text('Détails de ${widget.station.brand.name}',
-        style: TextStyle(color: Color(0xFFffffff))),
-        backgroundColor: Color(0xFF001931),
-        ),
+      appBar: AppBar(
+        title: Text('Brand Name'),
+      ),
       body: Center(
-    child: Column(
-    children: [
-    Card(
-    // Nouveau widget Card
-    shape: RoundedRectangleBorder(
-    side: BorderSide(color: Color(0x00000000), width: 1),
-      borderRadius: BorderRadius.circular(10),
-    ),
-    child: ListTile(
-    title: Column(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-    Text('${widget.station.fuel.name}',
-    style: TextStyle(color: Color(0xFF001931))),
-      Text('${widget.station.statement.dateTimeStatement}', style: TextStyle(color: Color(0xFF001931))),
-
-      ],
-
-    ),
-
-    ),
-    )]
-    ),
-    ),
+        child: GestureDetector(
+          onTap: () => openPriceDialog(context),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Fuel name: this is the fuel name',
+                style: TextStyle(fontSize: 24),
+              ),
+              Text(
+                'Price: ${statement.price}',
+                style: TextStyle(fontSize: 24),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Date: ${statement.dateTimeStatement.toString()}',
+                style: TextStyle(fontSize: 24),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
-
   }
-
-      }
+}

@@ -19,7 +19,6 @@ class StationAPI {
     final response = await client.get(Uri.parse(apiUrl));
 
     if (response.statusCode == 200) {
-      print('voila la data fdp : ${response.body}');
       final jsonData = json.decode(response.body);
       stations = List<Station>.from(
           jsonData.map((data) => Station.fromJson(data)));

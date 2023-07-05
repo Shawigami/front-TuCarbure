@@ -94,7 +94,7 @@ class Fuel {
 
 class Statement {
   final int idStatement;
-  final DateTime dateTimeStatement;
+  late final DateTime dateTimeStatement;
   late final double price;
 
   Statement({
