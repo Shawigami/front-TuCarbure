@@ -27,3 +27,26 @@ class StationAPI {
     }
   }
 }
+
+class Station {
+  final int idStation;
+  final String address;
+  final String latitude;
+  final String longitude;
+
+  const Station({
+    required this.idStation,
+    required this.address,
+    required this.latitude,
+    required this.longitude,
+  });
+
+  factory Station.fromJson(Map<String, dynamic> json) {
+    return Station(
+      idStation: json["id_Station"],
+      address: json["address"],
+      latitude: json["latitude"]?.toDouble(),
+      longitude: json["longitude"]?.toDouble(),
+    );
+  }
+}

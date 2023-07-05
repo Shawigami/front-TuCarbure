@@ -1,5 +1,3 @@
-// Fichier : lib/main.dart
-
 import 'package:flutter/material.dart';
 import 'package:tucarbure/views/FindAllStations.dart';
 
@@ -20,6 +18,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
-
