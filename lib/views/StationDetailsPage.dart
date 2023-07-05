@@ -1,8 +1,12 @@
 // Fichier : lib/views/StationDetailsPage.dart
 
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:intl/intl.dart'; // Assurez-vous d'importer 'intl' pour utiliser DateFormat
 import 'package:tucarbure/models/mock_data.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:android_intent_plus/android_intent.dart';
 
 class StationDetailsPage extends StatefulWidget {
   final Station station;
@@ -28,11 +32,28 @@ class _StationDetailsPageState extends State<StationDetailsPage> {
     super.dispose();
   }
 
+  void _openGoogleMapsIntent(BuildContext context) async {
+    final url = 'https://www.google.com/maps/search/?api=1&query=${widget.station.latitude},${widget.station.longitude}';
+    final AndroidIntent intent = AndroidIntent(
+      action: 'action_view',
+      data: Uri.encodeFull(url),
+      package: 'com.google.android.apps.maps',
+    );
+
+    try {
+      await intent.launch();
+    } catch (e) {
+      // Vous pouvez remplacer ceci par une gestion d'erreur personnalisée
+      print('Could not launch $url');
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Détails de ${widget.station.name}', style: TextStyle(color: Color(0xFF001931))),
+        title: Text('Détails de ${widget.station.name}', style: TextStyle(color: Color(0xFFFFFFFF))),
         backgroundColor: Color(0xFF001931),
         actions: <Widget>[
           Tooltip(
@@ -49,24 +70,79 @@ class _StationDetailsPageState extends State<StationDetailsPage> {
           ),
         ],
       ),
-      body: ListView(
+      body: Column(
         children: [
-          for (var fuel in widget.station.fuels) ...[
-            Card(
-              shape: RoundedRectangleBorder(
-                side: BorderSide(color: Color(0xFF001931), width: 1),
-                borderRadius: BorderRadius.circular(10),
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.grey[300]!,
+                  width: 1.0,
+                ),
+                borderRadius: BorderRadius.circular(8.0),
               ),
-              child: ListTile(
-                title: Text('${fuel.name} - \$${fuel.price.toStringAsFixed(2)}', style: TextStyle(color: Color(0xFF001931))),
-                subtitle: Text('Dernière mise à jour : ${DateFormat('dd/MM/yyyy').format(fuel.lastUpdate)}', style: TextStyle(color: Color(0xFFEF7300))),
-                trailing: IconButton(
-                  icon: Icon(Icons.edit, color: Color(0xFF001931)),
-                  onPressed: () => _showFuelEditDialog(context, fuel),
+              margin: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: FlutterMap(
+                  options: MapOptions(
+                    center: LatLng(widget.station.latitude, widget.station.longitude),
+                    zoom: 17.50,
+                  ),
+                  layers: [
+                    TileLayerOptions(
+                      urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                      subdomains: ['a', 'b', 'c'],
+                      // Notez qu'il n'y a pas de paramètre 'userAgentPackageName' dans TileLayerOptions
+                    ),
+                    MarkerLayerOptions(
+                      markers: [
+                        Marker(
+                          width: 80.0,
+                          height: 80.0,
+                          point: LatLng(widget.station.latitude, widget.station.longitude),
+                          builder: (ctx) => Container(
+                            child: Icon(
+                              Icons.location_pin,
+                              color: Colors.red,
+                              size: 50.0,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
-          ],
+          ),
+          FloatingActionButton.extended(
+            onPressed: () => _openGoogleMapsIntent(context),
+            label: Text('Ouvrir dans Google Maps'),
+            icon: Icon(Icons.map),
+            backgroundColor: Color(0xFF001931),
+          ),
+          ListView(
+            shrinkWrap: true,
+            children: [
+              for (var fuel in widget.station.fuels) ...[
+                Card(
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Color(0xFF001931), width: 1),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: ListTile(
+                    title: Text('${fuel.name} - \$${fuel.price.toStringAsFixed(2)}', style: TextStyle(color: Color(0xFF001931))),
+                    subtitle: Text('Dernière mise à jour : ${DateFormat('dd/MM/yyyy').format(fuel.lastUpdate)}', style: TextStyle(color: Color(0xFFEF7300))),
+                    trailing: IconButton(
+                      icon: Icon(Icons.edit, color: Color(0xFF001931)),
+                      onPressed: () => _showFuelEditDialog(context, fuel),
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
         ],
       ),
     );
@@ -134,5 +210,4 @@ class _StationDetailsPageState extends State<StationDetailsPage> {
       ),
     );
   }
-
 }
