@@ -76,7 +76,6 @@ ValueNotifier<List<Station>> stations = ValueNotifier<List<Station>>([
   ),// Ajoutez d'autres stations ici...
 ]);
 
-// Exemple de liste de stations favorites
 ValueNotifier<List<Station>> favoriteStations = ValueNotifier<List<Station>>([]);
 
 
