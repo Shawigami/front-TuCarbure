@@ -95,7 +95,7 @@ class Fuel {
 class Statement {
   final int idStatement;
   final DateTime dateTimeStatement;
-  final double price;
+  late final double price;
 
   Statement({
     required this.idStatement,
