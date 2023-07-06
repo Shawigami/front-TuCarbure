@@ -1,10 +1,13 @@
 // Fichier : lib/views/StationDetailsPage.dart
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // Assurez-vous d'importer 'intl' pour utiliser DateFormat
 import 'package:tucarbure/models/Statement.dart';
 
+import '../ViewModel/StationViewModel.dart';
 import '../models/Statement.dart';
+import '../models/Station.dart';
 import '../models/StationFuel.dart';
 
 class StationDetailsPage extends StatefulWidget {
@@ -19,10 +22,20 @@ class StationDetailsPage extends StatefulWidget {
 class _StationDetailsPageState extends State<StationDetailsPage> {
   late TextEditingController _priceController;
 
+
+
+  var viewmodelstation = StationAPI();
+  late ValueListenable<List<StationAll>> stations;
+
+  void _fetchInfoStations() async {
+    stations = (await viewmodelstation.fetchInfoStations()) as ValueListenable<List<StationAll>>;
+  }
+
+
   @override
   void initState() {
+    _fetchInfoStations();
     super.initState();
-    _priceController = TextEditingController();
   }
 
   @override
@@ -35,7 +48,7 @@ class _StationDetailsPageState extends State<StationDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Détails de ${widget.station.station.brand}', style: TextStyle(color: Color(0xFF001931))),
+        title: Text('Détails de ${widget.station.brand.name}', style: TextStyle(color: Color(0xFFFFFFFF))),
         backgroundColor: Color(0xFF001931),
         actions: <Widget>[
           Tooltip(

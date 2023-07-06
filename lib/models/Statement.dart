@@ -4,9 +4,9 @@
 
 import 'dart:convert';
 
-List<Statement> statementFromJson(String str) => List<Statement>.from(json.decode(str).map((x) => Statement.fromJson(x)));
+Statement statementFromJson(String str) => Statement.fromJson(json.decode(str));
 
-String statementToJson(List<Statement> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String statementToJson(Statement data) => json.encode(data.toJson());
 
 class Statement {
   final int idStatement;

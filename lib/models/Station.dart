@@ -1,21 +1,21 @@
 // To parse this JSON data, do
 //
-//     final stationFuel = stationFuelFromJson(jsonString);
+//     final stationAll = stationAllFromJson(jsonString);
 
 import 'dart:convert';
 
-List<StationFuel> stationFuelFromJson(String str) => List<StationFuel>.from(json.decode(str).map((x) => StationFuel.fromJson(x)));
+StationAll stationAllFromJson(String str) => StationAll.fromJson(json.decode(str));
 
-String stationFuelToJson(List<StationFuel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String stationAllToJson(StationAll data) => json.encode(data.toJson());
 
-class StationFuel {
+class StationAll {
   final int idStation;
   final String address;
   final double latitude;
   final double longitude;
   final Brand brand;
 
-  StationFuel({
+  StationAll({
     required this.idStation,
     required this.address,
     required this.latitude,
@@ -23,7 +23,7 @@ class StationFuel {
     required this.brand,
   });
 
-  factory StationFuel.fromJson(Map<String, dynamic> json) => StationFuel(
+  factory StationAll.fromJson(Map<String, dynamic> json) => StationAll(
     idStation: json["id_Station"],
     address: json["address"],
     latitude: json["latitude"]?.toDouble(),

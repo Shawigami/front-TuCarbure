@@ -4,6 +4,7 @@ import 'package:tucarbure/models/StationFuel.dart';
 import 'package:tucarbure/views/StationDetailsPage.dart';
 import 'package:tucarbure/ViewModel/StationFuelViewModel.dart';
 import 'package:tucarbure/ViewModel/StatementViewModel.dart';
+import 'package:tucarbure/ViewModel/StationViewModel.dart';
 
 import '../models/Statement.dart';
 

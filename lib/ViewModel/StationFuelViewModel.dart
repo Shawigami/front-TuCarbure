@@ -24,11 +24,11 @@ class StationFuelAPI {
       final jsonData = json.decode(response.body);
       stationFuels = List<StationFuel>.from(
           jsonData.map((data) => StationFuel.fromJson(data)));
-      ValueNotifier<List<StationFuel>> stations = ValueNotifier<List<StationFuel>>(
+      ValueNotifier<List<StationFuel>> stationsFuels = ValueNotifier<List<StationFuel>>(
         stationFuels
       );
       print(stationFuels);
-      return stations;
+      return stationsFuels;
     } else {
       throw Exception('Failed to fetch InfoCarbu from API');
     }

@@ -4,32 +4,55 @@
 
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
+StationFuel stationFuelFromJson(String str) => StationFuel.fromJson(json.decode(str));
 
-List<StationFuel> stationFuelFromJson(String str) => List<StationFuel>.from(json.decode(str).map((x) => StationFuel.fromJson(x)));
-
-String stationFuelToJson(List<StationFuel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String stationFuelToJson(StationFuel data) => json.encode(data.toJson());
 
 class StationFuel {
   final int idStationFuel;
   final Station station;
   final Fuel fuel;
+  final Brand brand;
 
   StationFuel({
     required this.idStationFuel,
     required this.station,
     required this.fuel,
+    required this.brand,
   });
+
   factory StationFuel.fromJson(Map<String, dynamic> json) => StationFuel(
-  idStationFuel: json["id_StationFuel"],
-  station: Station.fromJson(json["station"]),
-  fuel: Fuel.fromJson(json["fuel"]),
+    idStationFuel: json["id_StationFuel"],
+    station: Station.fromJson(json["station"]),
+    fuel: Fuel.fromJson(json["fuel"]),
+    brand: Brand.fromJson(json["brand"]),
   );
 
   Map<String, dynamic> toJson() => {
     "id_StationFuel": idStationFuel,
     "station": station.toJson(),
     "fuel": fuel.toJson(),
+    "brand": brand.toJson(),
+  };
+}
+
+class Brand {
+  final int idBrand;
+  final String name;
+
+  Brand({
+    required this.idBrand,
+    required this.name,
+  });
+
+  factory Brand.fromJson(Map<String, dynamic> json) => Brand(
+    idBrand: json["id_Brand"],
+    name: json["name"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id_Brand": idBrand,
+    "name": name,
   };
 }
 
