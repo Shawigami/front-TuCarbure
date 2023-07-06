@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart' as http_io;
@@ -27,5 +28,19 @@ class StationAPI {
     } else {
       throw Exception('Failed to fetch InfoCarbu from API');
     }
+  }
+
+}
+class UpdatePrice {
+  Future<http.Response> updateStatement(Double price) {
+    return http.post(
+      Uri.parse('http://192.168.79.64:7026/api/Statement'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, Double>{
+        'price': price,
+      }),
+    );
   }
 }
