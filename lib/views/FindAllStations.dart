@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:tucarbure/models/mock_data.dart';
+import 'package:tucarbure/models/StationFuel.dart';
 import 'package:tucarbure/views/StationDetailsPage.dart';
+import 'package:tucarbure/ViewModel/StationFuelViewModel.dart';
 
 class FindAllStations extends StatefulWidget {
   @override
@@ -9,6 +11,20 @@ class FindAllStations extends StatefulWidget {
 
 class _FindAllStationsState extends State<FindAllStations> {
   String _selectedFuel = 'Tous';  // Nouvelle variable d'état pour le carburant sélectionné
+
+  var viewmodel = StationFuelAPI();
+  late ValueListenable<List<StationFuel>> stationFuels;
+
+  void _fetchStationFuels() async {
+    stationFuels = await viewmodel.fetchInfoStationFuels();
+  }
+
+  @override
+  void initState() {
+    _fetchStationFuels();
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -59,17 +75,17 @@ class _FindAllStationsState extends State<FindAllStations> {
               child: TabBarView(
                 children: [
                   ValueListenableBuilder(
-                    valueListenable: stations,
+                    valueListenable: stationFuels,
                     builder: (context, value, child) {
-                      return _buildStationsList(stations.value);
+                      return _buildStationsList(stationFuels);
                     },
                   ),
-                  ValueListenableBuilder(
-                    valueListenable: favoriteStations,
-                    builder: (context, value, child) {
-                      return _buildStationsList(favoriteStations.value);
-                    },
-                  ),
+                  //ValueListenableBuilder(
+                    //valueListenable: favoriteStations,
+                   // builder: (context, value, child) {
+                     // return _buildStationsList(favoriteStations.value);
+                   // },
+                  //),
                 ],
               ),
             ),
@@ -79,16 +95,16 @@ class _FindAllStationsState extends State<FindAllStations> {
     );
   }
 
-  Widget _buildStationsList(List<Station> stations) {
+  Widget _buildStationsList(ValueListenable<List<StationFuel>> stationFuels) {
     return ValueListenableBuilder(
-      valueListenable: favoriteStations,
+      valueListenable: stationFuels,
       builder: (context, value, child) {
-        stations.sort((a, b) => (isFavorite(b) ? 1 : 0) - (isFavorite(a) ? 1 : 0));
+        //stationFuels.sort((a, b) => (isFavorite(b) ? 1 : 0) - (isFavorite(a) ? 1 : 0));
         return ListView.builder(
-          itemCount: stations.length,
+          itemCount: stationFuels.value.length,
           itemBuilder: (context, index) {
             // Filtre les stations en fonction du carburant sélectionné
-            if (_selectedFuel == 'Tous' || stations[index].fuels.any((fuel) => fuel.name == _selectedFuel)) {
+            if (_selectedFuel == 'Tous') {
               return Card( // Nouveau widget Card
                 shape: RoundedRectangleBorder(
                   side: BorderSide(color: Color(0xFF001931), width: 1),
@@ -98,20 +114,20 @@ class _FindAllStationsState extends State<FindAllStations> {
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(stations[index].name, style: TextStyle(color: Color(0xFF001931))),
-                      if (isFavorite(stations[index]))
-                        Icon(Icons.star, color: Colors.yellow),
+                      Text(stationFuels.value[index].station.address, style: TextStyle(color: Color(0xFF001931))),
+                     //if (isFavorite(stationFuels[index] as Station))
+                       // Icon(Icons.star, color: Colors.yellow),
                     ],
                   ),
                   subtitle: RichText(
                     text: TextSpan(
                       children: [
                         TextSpan(text: 'Adresse: ', style: TextStyle(color: Color(0xFFEF7300))),
-                        TextSpan(text: '${stations[index].address}\n', style: TextStyle(color: Color(0xFF001931))),
+                        TextSpan(text: '${stationFuels.value[index].fuel}\n', style: TextStyle(color: Color(0xFF001931))),
                         TextSpan(text: 'Longitude: ', style: TextStyle(color: Color(0xFFEF7300))),
-                        TextSpan(text: '${stations[index].longitude}\n', style: TextStyle(color: Color(0xFF001931))),
+                        TextSpan(text: '${stationFuels.value[index].fuel}\n', style: TextStyle(color: Color(0xFF001931))),
                         TextSpan(text: 'Latitude: ', style: TextStyle(color: Color(0xFFEF7300))),
-                        TextSpan(text: '${stations[index].latitude}', style: TextStyle(color: Color(0xFF001931))),
+                        TextSpan(text: '${stationFuels.value[index].fuel}', style: TextStyle(color: Color(0xFF001931))),
                       ],
                     ),
                   ),
@@ -119,7 +135,7 @@ class _FindAllStationsState extends State<FindAllStations> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => StationDetailsPage(station: stations[index]),
+                        builder: (context) => StationDetailsPage(station: stationFuels.value[index]),
                       ),
                     );
                   },
@@ -134,7 +150,7 @@ class _FindAllStationsState extends State<FindAllStations> {
     );
   }
 
-  bool isFavorite(Station station) {
-    return favoriteStations.value.contains(station);
-  }
+  //bool isFavorite(Station station) {
+  //  return favoriteStations.value.contains(station);
+  //}
 }
