@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:tucarbure/models/StationFuel.dart';
 import 'package:tucarbure/views/StationDetailsPage.dart';
 import 'package:tucarbure/ViewModel/StationFuelViewModel.dart';
+import 'package:tucarbure/ViewModel/StatementViewModel.dart';
+
+import '../models/Statement.dart';
 
 class FindAllStations extends StatefulWidget {
   @override
@@ -12,6 +15,7 @@ class FindAllStations extends StatefulWidget {
 class _FindAllStationsState extends State<FindAllStations> {
   String _selectedFuel = 'Tous';  // Nouvelle variable d'état pour le carburant sélectionné
 
+
   var viewmodel = StationFuelAPI();
   late ValueListenable<List<StationFuel>> stationFuels;
 
@@ -19,9 +23,19 @@ class _FindAllStationsState extends State<FindAllStations> {
     stationFuels = await viewmodel.fetchInfoStationFuels();
   }
 
+
+  var viewmodelstatement = StatementAPI();
+  late ValueListenable<List<Statement>> statements;
+
+  void _fetchInfoStatements() async {
+    statements = await viewmodelstatement.fetchInfoStatements();
+  }
+
+
   @override
   void initState() {
     _fetchStationFuels();
+    _fetchInfoStatements();
     super.initState();
   }
 
@@ -122,12 +136,12 @@ class _FindAllStationsState extends State<FindAllStations> {
                   subtitle: RichText(
                     text: TextSpan(
                       children: [
-                        TextSpan(text: 'Adresse: ', style: TextStyle(color: Color(0xFFEF7300))),
-                        TextSpan(text: '${stationFuels.value[index].fuel}\n', style: TextStyle(color: Color(0xFF001931))),
-                        TextSpan(text: 'Longitude: ', style: TextStyle(color: Color(0xFFEF7300))),
-                        TextSpan(text: '${stationFuels.value[index].fuel}\n', style: TextStyle(color: Color(0xFF001931))),
-                        TextSpan(text: 'Latitude: ', style: TextStyle(color: Color(0xFFEF7300))),
-                        TextSpan(text: '${stationFuels.value[index].fuel}', style: TextStyle(color: Color(0xFF001931))),
+                        TextSpan(text: 'Date mise à jour : ', style: TextStyle(color: Color(0xFFEF7300))),
+                        TextSpan(text: '${statements.value[index].dateTimeStatement}\n', style: TextStyle(color: Color(0xFF001931))),
+                        TextSpan(text: 'Price : ', style: TextStyle(color: Color(0xFFEF7300))),
+                        TextSpan(text: '${statements.value[index].price}\n', style: TextStyle(color: Color(0xFF001931))),
+                        TextSpan(text: 'Distance : ', style: TextStyle(color: Color(0xFFEF7300))),
+                        TextSpan(text: '${"10 km"}', style: TextStyle(color: Color(0xFF001931))),
                       ],
                     ),
                   ),
