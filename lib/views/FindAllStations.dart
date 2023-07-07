@@ -18,7 +18,7 @@ class _FindAllStationsState extends State<FindAllStations> {
 
 
   var viewmodel = StationFuelAPI();
-  late ValueListenable<List<StationFuel>> stationFuels;
+  ValueNotifier<List<StationFuel>> stationFuels = ValueNotifier<List<StationFuel>>([]);
 
   void _fetchStationFuels() async {
     stationFuels = await viewmodel.fetchInfoStationFuels();
@@ -28,8 +28,11 @@ class _FindAllStationsState extends State<FindAllStations> {
   var viewmodelstatement = StatementAPI();
   late ValueListenable<List<Statement>> statements;
 
-  void _fetchInfoStatements() async {
-    statements = await viewmodelstatement.fetchInfoStatements();
+  void _fetchInfoStatements() async{
+    var newStatements = await viewmodelstatement.fetchInfoStatements();
+    setState(() {
+      statements = newStatements;
+    });
   }
 
 
@@ -44,7 +47,7 @@ class _FindAllStationsState extends State<FindAllStations> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 1,
       child: Scaffold(
         appBar: AppBar(
           title: Text('Toutes les Stations', style: TextStyle(color: Color(0xFFffffff))),
@@ -54,8 +57,7 @@ class _FindAllStationsState extends State<FindAllStations> {
             unselectedLabelColor: Color(0xFFffffff).withOpacity(0.5),
             indicatorColor: Color(0xFF001931),
             tabs: [
-              Tab(text: 'Liste des stations'),
-              Tab(text: 'Favoris'),
+              Tab(text: 'Liste des stations')
             ],
           ),
         ),

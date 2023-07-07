@@ -9,11 +9,11 @@ Statement statementFromJson(String str) => Statement.fromJson(json.decode(str));
 String statementToJson(Statement data) => json.encode(data.toJson());
 
 class Statement {
-  final int idStatement;
-  final DateTime dateTimeStatement;
-  final double price;
-  final Station station;
-  final Fuel fuel;
+  final int? idStatement;
+  final DateTime? dateTimeStatement;
+  final double? price;
+  final Station? station;
+  final Fuel? fuel;
 
   Statement({
     required this.idStatement,
@@ -33,10 +33,10 @@ class Statement {
 
   Map<String, dynamic> toJson() => {
     "id_Statement": idStatement,
-    "dateTimeStatement": dateTimeStatement.toIso8601String(),
+    "dateTimeStatement": dateTimeStatement!.toIso8601String(),
     "price": price,
-    "station": station.toJson(),
-    "fuel": fuel.toJson(),
+    "station": station!.toJson(),
+    "fuel": fuel!.toJson(),
   };
 }
 

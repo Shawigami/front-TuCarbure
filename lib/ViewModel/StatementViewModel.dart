@@ -34,23 +34,23 @@ class StatementAPI {
     }
   }
 
-  Future<ValueNotifier<List<Statement>>> fetchInfoStatementsById(int id) async {
+  Future<ValueNotifier<Statement>> fetchInfoStatementsById(int id) async {
+    print(id);
     // Créer un client HTTP en désactivant la vérification du certificat
     http.Client client = http_io.IOClient(
       HttpClient()..badCertificateCallback = (cert, host, port) => true,
     );
 
-    final response = await client.get(Uri.parse(apiUrl+id.toString()));
+    final response = await client.get(Uri.parse(apiUrl+'/'+id.toString()));
 
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
-      statements = List<Statement>.from(
-          jsonData.map((data) => Statement.fromJson(data)));
-      ValueNotifier<List<Statement>> Allstatements = ValueNotifier<List<Statement>>(
-          statements
+      var statement = Statement.fromJson(jsonData);
+      ValueNotifier<Statement> Allstatement = ValueNotifier<Statement>(
+          statement
       );
-      print(statements);
-      return Allstatements;
+      print(statement);
+      return Allstatement;
     } else {
       throw Exception('Failed to fetch InfoCarbu from API');
     }

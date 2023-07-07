@@ -18,7 +18,7 @@ import '../models/StationFuel.dart';
 class StationDetailsPage extends StatefulWidget {
   final StationFuel station;
 
-  StationDetailsPage({Key? key, required this.station}) : super(key: key);
+  const StationDetailsPage({Key? key, required this.station}) : super(key: key);
 
   @override
   _StationDetailsPageState createState() => _StationDetailsPageState();
@@ -28,7 +28,7 @@ class _StationDetailsPageState extends State<StationDetailsPage> {
   late TextEditingController _priceController;
 
   var viewmodelstatement = StatementAPI();
-  late ValueListenable<List<Statement>> statements ;
+  ValueNotifier<Statement> statements = ValueNotifier<Statement>(new Statement(idStatement: null, dateTimeStatement: null, price: null, station: null, fuel: null));
 
   void _fetchInfoStatements() async {
     var statementsFetched = await viewmodelstatement.fetchInfoStatementsById(widget.station.station.idStation);
@@ -70,7 +70,7 @@ class _StationDetailsPageState extends State<StationDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Détails de ${widget.station.brand.name}', style: TextStyle(color: Color(0xFFFFFFFF))),
+        title: Text('Détails de ${widget.station.brand.name} ${statements.value.price}', style: TextStyle(color: Color(0xFFFFFFFF))),
         backgroundColor: Color(0xFF001931),
         actions:
         <Widget>[
