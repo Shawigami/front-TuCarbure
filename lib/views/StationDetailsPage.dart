@@ -113,7 +113,7 @@ class _StationDetailsPageState extends State<StationDetailsPage> {
               text: TextSpan(
                 children: [
                   TextSpan(text: 'Date mise à jour : ', style: TextStyle(color: Color(0xFFEF7300))),
-                  TextSpan(text: '${statements.value.dateTimeStatement}\n', style: TextStyle(color: Color(0xFF001931))),
+                  TextSpan(text: '${DateFormat('dd / MM / y').format(statements.value.dateTimeStatement!) }\n', style: TextStyle(color: Color(0xFF001931))),
                   TextSpan(text: 'Price : ', style: TextStyle(color: Color(0xFFEF7300))),
                   TextSpan(text: '${statements.value.price} €\n', style: TextStyle(color: Color(0xFF001931))),
                   TextSpan(text: 'Distance : ', style: TextStyle(color: Color(0xFFEF7300))),

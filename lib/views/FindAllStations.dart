@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:tucarbure/models/StationFuel.dart';
 import 'package:tucarbure/views/StationDetailsPage.dart';
 import 'package:tucarbure/ViewModel/StationFuelViewModel.dart';
@@ -57,7 +58,7 @@ class _FindAllStationsState extends State<FindAllStations> {
             unselectedLabelColor: Color(0xFFffffff).withOpacity(0.5),
             indicatorColor: Color(0xFF001931),
             tabs: [
-              Tab(text: 'Liste des stations')
+              Tab(text: 'Filtre carburant')
             ],
           ),
         ),
@@ -140,7 +141,7 @@ class _FindAllStationsState extends State<FindAllStations> {
                     text: TextSpan(
                       children: [
                         TextSpan(text: 'Date mise à jour : ', style: TextStyle(color: Color(0xFFEF7300))),
-                        TextSpan(text: '${statements.value[index].dateTimeStatement}\n', style: TextStyle(color: Color(0xFF001931))),
+                        TextSpan(text: '${DateFormat('dd / MM / y').format(statements.value[index].dateTimeStatement!) }\n', style: TextStyle(color: Color(0xFF001931))),
                         TextSpan(text: 'Price : ', style: TextStyle(color: Color(0xFFEF7300))),
                         TextSpan(text: '${statements.value[index].price} €\n', style: TextStyle(color: Color(0xFF001931))),
                         TextSpan(text: 'Distance : ', style: TextStyle(color: Color(0xFFEF7300))),
