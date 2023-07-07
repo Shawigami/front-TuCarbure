@@ -142,7 +142,7 @@ class _FindAllStationsState extends State<FindAllStations> {
                         TextSpan(text: 'Date mise à jour : ', style: TextStyle(color: Color(0xFFEF7300))),
                         TextSpan(text: '${statements.value[index].dateTimeStatement}\n', style: TextStyle(color: Color(0xFF001931))),
                         TextSpan(text: 'Price : ', style: TextStyle(color: Color(0xFFEF7300))),
-                        TextSpan(text: '${statements.value[index].price} €s\n', style: TextStyle(color: Color(0xFF001931))),
+                        TextSpan(text: '${statements.value[index].price} €\n', style: TextStyle(color: Color(0xFF001931))),
                         TextSpan(text: 'Distance : ', style: TextStyle(color: Color(0xFFEF7300))),
                         TextSpan(text: '${"10 km"}', style: TextStyle(color: Color(0xFF001931))),
                       ],
