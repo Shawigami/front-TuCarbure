@@ -70,7 +70,7 @@ class _StationDetailsPageState extends State<StationDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Détails de ${widget.station.brand.name} ${statements.value.price}', style: TextStyle(color: Color(0xFFFFFFFF))),
+        title: Text('Détails de ${widget.station.brand.name}', style: TextStyle(color: Color(0xFFFFFFFF))),
         backgroundColor: Color(0xFF001931),
         actions:
         <Widget>[
@@ -96,8 +96,32 @@ class _StationDetailsPageState extends State<StationDetailsPage> {
 
 
       ),
+
       body: Column(
+
         children: [
+          ListTile(
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Nom de carburant : ${statements.value.fuel?.name} (${statements.value.fuel?.codeEuro})', style: TextStyle(color: Color(0xFF001931))),
+                //if (isFavorite(stationFuels[index] as Station))
+                // Icon(Icons.star, color: Colors.yellow),
+              ],
+            ),
+            subtitle: RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(text: 'Date mise à jour : ', style: TextStyle(color: Color(0xFFEF7300))),
+                  TextSpan(text: '${statements.value.dateTimeStatement}\n', style: TextStyle(color: Color(0xFF001931))),
+                  TextSpan(text: 'Price : ', style: TextStyle(color: Color(0xFFEF7300))),
+                  TextSpan(text: '${statements.value.price} €\n', style: TextStyle(color: Color(0xFF001931))),
+                  TextSpan(text: 'Distance : ', style: TextStyle(color: Color(0xFFEF7300))),
+                  TextSpan(text: '${"10 km"}', style: TextStyle(color: Color(0xFF001931))),
+                ],
+              ),
+            ),
+          ),
       Expanded(
       child: Container(
       decoration: BoxDecoration(
